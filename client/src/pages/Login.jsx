@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import Layout from "../components/Layout.jsx";
 
 export default function Login() {
   const { login } = useAuth();
@@ -23,7 +24,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 gap-6 bg-brand-cream">
+    <Layout>
+    <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 gap-6 bg-brand-cream">
       <h1 className="text-2xl font-bold text-brand">Welcome to Gokyo Bistro</h1>
 
       <button
@@ -66,5 +68,6 @@ export default function Login() {
         </Link>
       </p>
     </div>
+    </Layout>
   );
 }
