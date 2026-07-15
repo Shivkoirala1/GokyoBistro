@@ -28,9 +28,10 @@ export default function Home() {
   return (
     <Layout showBack={false}>
       {/* Hero */}
-      <div className="relative min-h-[85vh] flex flex-col items-center justify-center px-6 text-center overflow-hidden">
+      <div className="relative min-h-[93vh] flex flex-col items-center justify-center px-6 text-center overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-bottom "
+          //  className="fixed inset-0 h-screen w-screen bg-cover bg-center"
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1600&q=80')",
