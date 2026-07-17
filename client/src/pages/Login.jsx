@@ -46,12 +46,12 @@ const [guestError, setGuestError ] = useState("");
     <Layout>
     <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 gap-6 bg-brand-cream">
       <h1 className="text-2xl font-bold text-brand">Welcome to Gokyo Bistro</h1>
-
+      
       <button
-        onClick={() => navigate("/menu")}
-        className="w-full max-w-xs bg-white border border-brand text-brand py-3 rounded-xl font-semibold"
+        onClick = {() => setGuestModalOpen(true)}
+        className = "w-full max-w-xs bg-white border border-brand text-brand py-3 rounded-xl font-semibold"
       >
-        Continue as Guest
+        Continue As Guest
       </button>
 
       <div className="w-full max-w-xs border-t pt-6">
@@ -87,6 +87,33 @@ const [guestError, setGuestError ] = useState("");
         </Link>
       </p>
     </div>
+
+    <ConfirmModal
+      open = {guestModalOpen}
+      title = "Continue As Guest"
+      message = "Please Enter Your Name and Phone Number To Continue AS A Guest"
+      onCancel = {() => setGuestModalOpen(false)}
+      actions ={[
+        {label: "Continue", variant : "primary", onClick: handleGuestContinue}
+      ]}
+    >
+      <div className = "flex flex-col gap-2 mb-2" >
+        {guestError && <p className = "text-red-600  text-xs">{guestError}</p>}
+        <input
+          placeholder="Full Name" 
+          value={guestName}
+          onChange={(e) => setGuestName(e.target.value)}
+          className="border rounded-lg px-3 py-3 text-sm"
+        />
+        <input 
+        placeholder="Phone Number"
+          value={guestPhone}
+          onChange={(e) => setGuestPhone(e.target.value)}
+          className="border rounded-lg px-3 py-2 text-sm"
+        />  
+      </div>
+    </ConfirmModal>
+
     </Layout>
   );
 }
