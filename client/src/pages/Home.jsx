@@ -20,6 +20,78 @@ const FEATURED = [
     price: "NPR 450",
     img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80",
   },
+  {
+    name: "Smoked BBQ Ribs",
+    desc: "House BBQ glaze, mashed potatoes",
+    price: "NPR 1,150",
+    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Butter Chicken Deluxe",
+    desc: "Creamy tomato curry, garlic naan",
+    price: "NPR 790",
+    img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Margherita Pizza",
+    desc: "Fresh mozzarella, basil, tomato",
+    price: "NPR 750",
+    img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Seafood Risotto",
+    desc: "Shrimp, squid, parmesan rice",
+    price: "NPR 1,050",
+    img: "https://images.unsplash.com/photo-1516685018646-549198525c1b?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Grilled Salmon Fillet",
+    desc: "Lemon butter, roasted vegetables",
+    price: "NPR 1,350",
+    img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Classic Beef Burger",
+    desc: "Cheddar, caramelized onions, fries",
+    price: "NPR 690",
+    img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Chicken Caesar Salad",
+    desc: "Romaine, parmesan, garlic croutons",
+    price: "NPR 550",
+    img: "https://images.unsplash.com/photo-1546793665-c74683f339c1?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Chocolate Lava Cake",
+    desc: "Warm chocolate center, vanilla ice cream",
+    price: "NPR 420",
+    img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Tiramisu Delight",
+    desc: "Coffee-soaked sponge, mascarpone cream",
+    price: "NPR 450",
+    img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Fresh Berry Cheesecake",
+    desc: "Cream cheese, seasonal berries",
+    price: "NPR 480",
+    img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+  name: "Herb Roasted Duck",
+  desc: "Crispy duck, rosemary potatoes, orange glaze",
+  price: "NPR 1,480",
+  img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+  name: "Spicy Chicken Sizzler",
+  desc: "Grilled chicken, sautéed vegetables, pepper sauce",
+  price: "NPR 920",
+  img: "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=500&q=80",
+  }
 ];
 
 export default function Home() {
