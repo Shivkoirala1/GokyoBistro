@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import Layout from "../components/Layout.jsx";
+import ConfirmModal from "../components/ConfirmModal.jsx";
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, setGuestInfo } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+// Guest details Modal where name and phone number are required for the guest to continuing,
+// After this checkout and order tracking will have something to show
+const [guestModalOpen, setGuestModalOpen] = useState(false);
+const [guestName, setGuestName ] = useState("");
+const [guestPhone, setGuestPhone ] = useState("");
+const [guestError, setGuestError ] = useState("");
 
   const handleMemberLogin = async (e) => {
     e.preventDefault();
@@ -22,6 +30,17 @@ export default function Login() {
       setError(err.response?.data?.message || "Login failed");
     }
   };
+
+  const handleGuestContinue = () => {
+    if (!guestName.trim() || !guestPhone.trim()) {
+      setGuestError("Please Enter Your Name and Phone Number to Continue !!!");
+      return;
+      
+    }
+    setGuestInfo ({name: guestName.trim(), phone: guestPhone.trim()});
+    setGuestModalOpen(false);
+    navigate("/menu");
+  }
 
   return (
     <Layout>
