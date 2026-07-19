@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import About from ".pages/About.jsx";
-import Contact from ".pagse/Contact.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Menu from "./pages/Menu.jsx";
@@ -19,7 +19,7 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path = "/about" element={<About/>}></Route>
-      <Route path="/contact" element={<contact />}></Route>
+      <Route path="/contact" element={<Contact />}></Route>
       <Route path="/register" element={<Register />} />
       <Route path="/menu" element={<Menu />} />
       <Route path="/cart" element={<Cart />} />
