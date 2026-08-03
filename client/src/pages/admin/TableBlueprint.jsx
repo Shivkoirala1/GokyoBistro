@@ -24,38 +24,67 @@ export default function TableBlueprint() {
 
   const updateStatus = async (orderId, status) => {
     await api.patch(`/orders/${orderId}/status`, { status });
-    // Refresh both the order list for this table and the overall blueprint,
-    // since marking "Delivered" is what frees the table.
     const { data } = await api.get(`/orders/table/${selectedTable}`);
     setTableOrders(data);
     loadTables();
   };
 
-  return (
-    <div>
-      <h2 className="font-bold text-coffee mb-3">Café Blueprint</h2>
+  const occupiedCount = tables.filter((t) => t.occupied).length;
 
-      <div className="relative bg-white border rounded-xl w-full aspect-[4/3] mb-6">
-        {tables.map((t) => (
-          <button
-            key={t.tableNumber}
-            onClick={() => openTable(t.tableNumber)}
-            style={{ left: `${t.x}%`, top: `${t.y}%` }}
-            className={`absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-lg flex items-center justify-center text-sm font-bold text-white ${
-              t.occupied ? "bg-red-500" : "bg-green-500"
-            }`}
-          >
-            {t.tableNumber}
-          </button>
-        ))}
+  return (
+    <div className="font-body">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h2 className="font-display text-2xl text-brand">Café Blueprint</h2>
+          <p className="text-xs text-gray-500 mt-1">
+            {occupiedCount} of {tables.length} tables occupied
+          </p>
+        </div>
+        <div className="flex items-center gap-4 text-xs text-gray-600">
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-full bg-green-500 inline-block" /> Free
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-full bg-red-500 inline-block" /> Occupied
+          </span>
+        </div>
       </div>
 
+      {/* Floor plan: clean grid, not floating absolute-positioned dots */}
+      <div className="bg-white border border-black/10 rounded-2xl p-6 mb-6 shadow-sm">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {tables.map((t) => (
+            <button
+              key={t.tableNumber}
+              onClick={() => openTable(t.tableNumber)}
+              className={`aspect-square rounded-xl flex flex-col items-center justify-center gap-1 border-2 transition
+                ${
+                  t.occupied
+                    ? "bg-red-50 border-red-400 text-red-700"
+                    : "bg-green-50 border-green-400 text-green-700"
+                }
+                ${selectedTable === t.tableNumber ? "ring-2 ring-gold ring-offset-2" : ""}
+                hover:shadow-md`}
+            >
+              <span className="text-2xl font-display font-bold">{t.tableNumber}</span>
+              <span className="text-[10px] uppercase tracking-wide font-semibold">
+                {t.occupied ? `${t.activeOrderCount} active` : "Free"}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Selected table detail panel */}
       {selectedTable && (
-        <div className="border rounded-xl p-3">
-          <div className="flex justify-between items-center mb-2">
-            <p className="font-semibold">Table {selectedTable}</p>
-            <button onClick={() => setSelectedTable(null)} className="text-sm text-gray-500">
-              Close
+        <div className="bg-white border border-black/10 rounded-2xl p-5 shadow-sm">
+          <div className="flex justify-between items-center mb-4">
+            <p className="font-display text-lg text-brand">Table {selectedTable}</p>
+            <button
+              onClick={() => setSelectedTable(null)}
+              className="text-sm text-gray-400 hover:text-gray-700"
+            >
+              Close ✕
             </button>
           </div>
 
@@ -65,8 +94,8 @@ export default function TableBlueprint() {
 
           <div className="flex flex-col gap-3">
             {tableOrders.map((order) => (
-              <div key={order._id} className="bg-gray-50 rounded-lg p-2">
-                <p className="text-sm font-semibold">
+              <div key={order._id} className="bg-brand-cream/60 rounded-xl p-3 border border-black/5">
+                <p className="text-sm font-semibold text-brand mb-1">
                   #{order._id.slice(-6)} · {order.customerInfo.name}
                 </p>
                 {order.items.map((item, i) => (
@@ -74,12 +103,12 @@ export default function TableBlueprint() {
                     {item.quantity}x {item.name} {item.note && `(${item.note})`}
                   </p>
                 ))}
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-xs">Status:</span>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="text-xs text-gray-500">Status:</span>
                   <select
                     value={order.status}
                     onChange={(e) => updateStatus(order._id, e.target.value)}
-                    className="text-xs border rounded px-2 py-1"
+                    className="text-xs border border-black/10 rounded-lg px-2 py-1 bg-white"
                   >
                     {STATUS_FLOW.map((s) => (
                       <option key={s} value={s}>
