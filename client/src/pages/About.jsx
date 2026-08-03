@@ -30,8 +30,20 @@ export default function About() {
           special evenings. Becoming a member takes less than a minute.
         </p>
 
-       
-        
+        <div className="grid sm:grid-cols-3 gap-4 text-center">
+          <div className="border border-black/10 rounded-xl p-4">
+            <p className="font-display text-2xl text-brand">11 AM – 10 PM</p>
+            <p className="font-body text-xs text-gray-500 mt-1">Open Daily</p>
+          </div>
+          <div className="border border-black/10 rounded-xl p-4">
+            <p className="font-display text-2xl text-brand">Indoor & Outdoor</p>
+            <p className="font-body text-xs text-gray-500 mt-1">Seating</p>
+          </div>
+          <div className="border border-black/10 rounded-xl p-4">
+            <p className="font-display text-2xl text-brand">Jhamsikhel</p>
+            <p className="font-body text-xs text-gray-500 mt-1">Lalitpur, Nepal</p>
+          </div>
+        </div>
       </div>
     </Layout>
   );
