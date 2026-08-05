@@ -3,10 +3,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api/axios.js";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import Layout from "../components/Layout.jsx";
+import ConfirmModal from "../components/ConfirmModal.jsx";
 
 export default function Checkout() {
   const { items, total, clearCart } = useCart();
-  const { user, guestId } = useAuth();
+  const { user, guestId, guestInfo } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -16,10 +18,11 @@ export default function Checkout() {
   const [orderType, setOrderType] = useState(qrTable ? "dine-in" : "pickup");
   const [tableNumber, setTableNumber] = useState(qrTable || "");
   const [tables, setTables] = useState([]);
-  const [name, setName] = useState(user?.name || "");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState(user?.name || guestInfo?.name || "");
+  const [phone, setPhone] = useState(guestInfo?.phone || "");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     // Only needed for the manual fallback picker.
@@ -28,13 +31,19 @@ export default function Checkout() {
     }
   }, [qrTable]);
 
-  const handleConfirm = async (e) => {
+  // Form submit just validates and opens the confirmation modal - the
+  // actual order isn't placed until the customer confirms the total there.
+  const handleReviewOrder = (e) => {
     e.preventDefault();
     setError("");
     if (orderType === "dine-in" && !tableNumber) {
       setError("Please select your table number.");
       return;
     }
+    setConfirmOpen(true);
+  };
+
+  const placeOrder = async () => {
     setSubmitting(true);
     try {
       const { data } = await api.post("/orders", {
@@ -48,6 +57,7 @@ export default function Checkout() {
       clearCart();
       navigate(`/order-status/${data._id}`);
     } catch (err) {
+      setConfirmOpen(false);
       setError(err.response?.data?.message || "Could not place order");
     } finally {
       setSubmitting(false);
@@ -55,10 +65,11 @@ export default function Checkout() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-4">
-      <h1 className="text-xl font-bold text-coffee mb-4">Checkout</h1>
+    <Layout>
+    <div className="min-h-[70vh] p-4">
+      <h1 className="text-xl font-bold text-brand mb-4">Checkout</h1>
 
-      <form onSubmit={handleConfirm} className="flex flex-col gap-3 max-w-sm">
+      <form onSubmit={handleReviewOrder} className="flex flex-col gap-3 max-w-sm">
         {error && <p className="text-red-600 text-sm">{error}</p>}
 
         <input
@@ -84,7 +95,7 @@ export default function Checkout() {
               disabled={Boolean(qrTable) && type !== "dine-in"}
               onClick={() => setOrderType(type)}
               className={`flex-1 py-2 rounded-lg text-sm capitalize ${
-                orderType === type ? "bg-coffee text-white" : "bg-gray-100"
+                orderType === type ? "bg-brand text-white" : "bg-gray-100"
               }`}
             >
               {type}
@@ -121,12 +132,42 @@ export default function Checkout() {
 
         <button
           type="submit"
-          disabled={submitting || items.length === 0}
-          className="bg-coffee text-white py-3 rounded-xl font-semibold mt-2 disabled:opacity-50"
+          disabled={items.length === 0}
+          className="bg-brand text-white py-3 rounded-xl font-semibold mt-2 disabled:opacity-50"
         >
-          {submitting ? "Placing order..." : "Confirm Order"}
+          Review Order
         </button>
       </form>
     </div>
+
+    <ConfirmModal
+      open={confirmOpen}
+      title="Confirm your order"
+      onCancel={() => !submitting && setConfirmOpen(false)}
+      actions={[
+        {
+          label: submitting ? "Placing order..." : `Confirm Order · Rs. ${total}`,
+          variant: "primary",
+          onClick: placeOrder,
+        },
+      ]}
+    >
+      <div className="flex flex-col gap-1 bg-brand-cream rounded-xl p-3 mb-2">
+        {items.map((item) => (
+          <div key={item.menuItemId + item.note} className="flex justify-between text-sm">
+            <span>{item.quantity}x {item.name}</span>
+            <span>Rs. {item.price * item.quantity}</span>
+          </div>
+        ))}
+        <div className="flex justify-between font-semibold border-t border-black/10 pt-2 mt-1">
+          <span>Total</span>
+          <span>Rs. {total}</span>
+        </div>
+      </div>
+      <p className="text-xs text-gray-500">
+        {orderType === "dine-in" ? `Dine-in · Table ${tableNumber}` : `${orderType}`} · {name}, {phone}
+      </p>
+    </ConfirmModal>
+    </Layout>
   );
 }
