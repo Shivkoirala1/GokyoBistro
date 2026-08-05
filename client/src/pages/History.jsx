@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../api/axios.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import BottomNav from "../components/BottomNav.jsx";
+import Layout from "../components/Layout.jsx";
 
 export default function History() {
   const { user, guestId } = useAuth();
@@ -14,8 +15,9 @@ export default function History() {
   }, [user, guestId]);
 
   return (
-    <div className="min-h-screen bg-white p-4 pb-20">
-      <h1 className="text-xl font-bold text-coffee mb-4">Order History</h1>
+    <Layout showFooter={false}>
+    <div className="p-4 pb-20">
+      <h1 className="text-xl font-bold text-brand mb-4">Order History</h1>
       {orders.length === 0 && <p className="text-gray-500">No past orders yet.</p>}
       <div className="flex flex-col gap-3">
         {orders.map((order) => (
@@ -34,5 +36,6 @@ export default function History() {
       </div>
       <BottomNav />
     </div>
+    </Layout>
   );
 }
