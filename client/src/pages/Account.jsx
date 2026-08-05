@@ -1,14 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import BottomNav from "../components/BottomNav.jsx";
+import Layout from "../components/Layout.jsx";
 
 export default function Account() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white p-4 pb-20">
-      <h1 className="text-xl font-bold text-coffee mb-4">Account</h1>
+    <Layout showFooter={false}>
+    <div className="p-4 pb-20">
+      <h1 className="text-xl font-bold text-brand mb-4">Account</h1>
 
       {user ? (
         <div className="flex flex-col gap-2">
@@ -20,7 +22,7 @@ export default function Account() {
           {(user.role === "admin" || user.role === "worker") && (
             <button
               onClick={() => navigate("/admin")}
-              className="bg-coffee text-white py-2 rounded-lg mt-2"
+              className="bg-brand text-white py-2 rounded-lg mt-2"
             >
               Go to Dashboard
             </button>
@@ -30,7 +32,7 @@ export default function Account() {
               logout();
               navigate("/");
             }}
-            className="border border-coffee text-coffee py-2 rounded-lg mt-2"
+            className="border border-brand text-brand py-2 rounded-lg mt-2"
           >
             Log Out
           </button>
@@ -38,15 +40,16 @@ export default function Account() {
       ) : (
         <div className="flex flex-col gap-2">
           <p className="text-gray-600">You're browsing as a guest.</p>
-          <Link to="/register" className="bg-coffee text-white py-2 rounded-lg text-center">
+          <Link to="/register" className="bg-brand text-white py-2 rounded-lg text-center">
             Become a Member
           </Link>
-          <Link to="/login" className="border border-coffee text-coffee py-2 rounded-lg text-center">
+          <Link to="/login" className="border border-brand text-brand py-2 rounded-lg text-center">
             Login
           </Link>
         </div>
       )}
       <BottomNav />
     </div>
+    </Layout>
   );
 }
