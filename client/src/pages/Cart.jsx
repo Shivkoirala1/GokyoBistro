@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import BottomNav from "../components/BottomNav.jsx";
+import Layout from "../components/Layout.jsx";
 
 export default function Cart() {
   const { items, updateQuantity, removeItem, total } = useCart();
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white pb-24">
+    <Layout showFooter={false}>
+    <div className="pb-24">
       <div className="p-4">
-        <h1 className="text-xl font-bold text-coffee mb-4">Your Cart</h1>
+        <h1 className="text-xl font-bold text-brand mb-4">Your Cart</h1>
 
         {items.length === 0 && <p className="text-gray-500">Your cart is empty.</p>}
 
@@ -56,7 +58,7 @@ export default function Cart() {
             </div>
             <button
               onClick={() => navigate("/checkout")}
-              className="w-full bg-coffee text-white py-3 rounded-xl font-semibold mt-4"
+              className="w-full bg-brand text-white py-3 rounded-xl font-semibold mt-4"
             >
               Checkout
             </button>
@@ -65,5 +67,6 @@ export default function Cart() {
       </div>
       <BottomNav />
     </div>
+    </Layout>
   );
 }
