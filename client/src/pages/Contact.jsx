@@ -36,7 +36,50 @@ export default function Contact() {
             <p><span className="font-semibold text-brand">Hours:</span> 11:00 AM – 10:00 PM, daily</p>
           </div>
         </div>
-              </div>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          {sent ? (
+            <div className="border border-green-300 bg-green-50 text-green-700 rounded-xl p-4 font-body text-sm">
+              Thanks — we've got your message. We'll get back to you soon.
+            </div>
+          ) : (
+            <>
+              <input
+                name="name"
+                placeholder="Your name"
+                value={form.name}
+                onChange={handleChange}
+                className="border rounded-lg px-3 py-2 font-body"
+                required
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Your email"
+                value={form.email}
+                onChange={handleChange}
+                className="border rounded-lg px-3 py-2 font-body"
+                required
+              />
+              <textarea
+                name="message"
+                placeholder="Your message"
+                value={form.message}
+                onChange={handleChange}
+                rows={5}
+                className="border rounded-lg px-3 py-2 font-body"
+                required
+              />
+              <button
+                type="submit"
+                className="bg-gold text-black py-3 rounded-xl font-body font-semibold"
+              >
+                Send Message
+              </button>
+            </>
+          )}
+        </form>
+      </div>
     </Layout>
   );
 }
